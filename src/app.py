@@ -21,7 +21,7 @@ class Handler(object):
 
         return files_info
 
-    def sumariza_dados(self, files):
+    def summarize_data(self, files):
         extesions = {}
         qty_lines = 0
         for file in files:
@@ -52,11 +52,22 @@ class Handler(object):
 
         return pretty_table.get_string()
 
-if __name__ == '__main__':
-    handler = Handler()
-    lista = handler.read_csv_file('gh.csv')
-    table = handler.sumariza_dados(lista)
-    print(table)
-    with open('text.txt', 'w') as f:
-        f.write(table)
+    def create_tree(self, files):
+        tree = Tree()
+        root = files[0]
+        tree.create_node(root.url.split("/")[0], root.url.split("/")[0])
+        for item in files:
+            pieces = item.url.split("/")
+            if not tree.contains("/".join(pieces[:-2])):
+                for index, path in enumerate(pieces, 1):
+                    if not tree.contains("/".join(pieces[:index])):
+                        tree.create_node(path, "/".join(pieces[:index]),
+                                         parent="/".join(pieces[:index - 1]))
 
+            if not tree.contains("/".join(pieces)):
+                tree.create_node(pieces[-1], "/".join(pieces),
+                                 parent="/".join(pieces[:-2]))
+
+        tree.remove_node(f'{root.url}/tree')
+
+        return tree
