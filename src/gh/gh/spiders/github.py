@@ -5,9 +5,7 @@ import scrapy
 class GithubSpider(scrapy.Spider):
     name = 'github'
     allowed_domains = ['github.com']
-    start_urls = [
-        'https://github.com/Bernardoow/Elm-SqlAlchemy-Replace',
-    ]
+    start_urls = []
 
     def parse(self, response):
         url = response.request.url.replace("https://github.com/", "")
@@ -30,16 +28,19 @@ class GithubSpider(scrapy.Spider):
                 'extensions_file_url': extensions_file_url
             }
 
+        else:
+
+            yield {
+                'url': url,
+                'qty_lines': 0,
+                'size_files': 0,
+                'is_file': 0,
+                'unit': '-',
+                'extensions_file_url': '-'
+            }
+
         seletor_link = 'table.files.js-navigation-container tbody' \
             ' tr.js-navigation-item td.content a'
-
-        yield {
-            'url': url,
-            'qty_lines': 0,
-            'size_files': 0,
-            'is_file': 0,
-            'extensions_file_url': '-'
-        }
 
         for a in response.css(seletor_link):
             yield response.follow(a, callback=self.parse)

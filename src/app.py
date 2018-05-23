@@ -3,8 +3,10 @@ import csv
 
 from treelib import Node, Tree
 from prettytable import PrettyTable
+from scrapy.crawler import CrawlerProcess
 
 from models import FileModel, Aggregate
+from gh.gh.spiders.github import GithubSpider
 
 
 class Handler(object):
@@ -71,3 +73,7 @@ class Handler(object):
         tree.remove_node(f'{root.url}/tree')
 
         return tree
+
+    def open_input_txt_file(self, path):  #  str -> list[str]
+        with open(path) as f:
+            return f.readlines()
