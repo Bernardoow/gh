@@ -2,7 +2,7 @@
 
 import unittest
 
-from src.models import FileModel
+from src.models import FileModel, Aggregate
 
 
 class FileModelTest(unittest.TestCase):
@@ -197,3 +197,100 @@ class FileModelTest(unittest.TestCase):
         mb_test = FileModel('www', 0, 100, 'MB', 0, '-')
 
         self.assertEqual(mb_test.get_size_in_bytes(), 100 * 125000)
+
+
+class AggregateModelTest(unittest.TestCase):
+
+    def setUp(self):
+        self.aggregate = Aggregate('extesion', 0, 0, 'Bytes', 0)
+
+    def test_model(self):
+
+        self.assertTrue(hasattr(self.aggregate.__attrs_attrs__, 'extension'))
+        self.assertTrue(self.aggregate.__attrs_attrs__.extension.converter is str)
+        self.assertTrue(self.aggregate.__attrs_attrs__.extension.type is str)
+        # self.assertIsNotNone(self.aggregate.__attrs_attrs__.extension.validator)
+
+        self.assertTrue(hasattr(self.aggregate.__attrs_attrs__, 'qty_lines'))
+        self.assertTrue(
+            self.aggregate.__attrs_attrs__.qty_lines.converter is int)
+        self.assertTrue(self.aggregate.__attrs_attrs__.qty_lines.type is int)
+        self.assertIsNotNone(
+            self.aggregate.__attrs_attrs__.qty_lines.validator)
+
+        self.assertTrue(hasattr(self.aggregate.__attrs_attrs__, 'size_files'))
+        self.assertTrue(
+            self.aggregate.__attrs_attrs__.size_files.converter is float)
+        self.assertTrue(self.aggregate.__attrs_attrs__.size_files.type is float)
+        self.assertIsNotNone(
+            self.aggregate.__attrs_attrs__.size_files.validator)
+
+        self.assertTrue(hasattr(self.aggregate.__attrs_attrs__, 'unit'))
+        self.assertTrue(self.aggregate.__attrs_attrs__.unit.converter is str)
+        self.assertTrue(self.aggregate.__attrs_attrs__.unit.type is str)
+        # self.assertIsNotNone(self.aggregate.__attrs_attrs__.unit.validator)
+
+    def test_validate_qty_lines_value_ok(self):
+        self.aggregate.__attrs_attrs__.qty_lines.validator(
+            self.aggregate,
+            self.aggregate.__attrs_attrs__.qty_lines,
+            10)
+
+    def test_validate_qty_lines_value_invalid(self):
+        self.\
+            assertRaises(ValueError,
+                         self.aggregate.__attrs_attrs__.qty_lines.validator,
+                         self.aggregate,
+                         self.aggregate.__attrs_attrs__.qty_lines,
+                         -2)
+
+    def test_validate_qty_lines_value_invalid_message(self):
+        with self.assertRaises(ValueError) as error:
+            self.aggregate.__attrs_attrs__.qty_lines.validator(
+                self.aggregate,
+                self.aggregate.__attrs_attrs__.qty_lines,
+                -10)
+        self.assertEqual(error.exception.__str__(),
+                         f"{self.aggregate.__attrs_attrs__.qty_lines.name}" \
+                         " must be bigger or equal to 0.")
+
+    def test_validate_size_file_value_ok(self):
+        self.aggregate.__attrs_attrs__.size_files.validator(
+            self.aggregate,
+            self.aggregate.__attrs_attrs__.size_files,
+            10)
+
+    def test_validate_size_file_value_invalid(self):
+        self.\
+            assertRaises(ValueError,
+                         self.aggregate.__attrs_attrs__.size_files.validator,
+                         self.aggregate,
+                         self.aggregate.__attrs_attrs__.size_files,
+                         -2)
+
+    def test_validate_size_file_value_invalid_message(self):
+        with self.assertRaises(ValueError) as error:
+            self.aggregate.__attrs_attrs__.size_files.validator(
+                self.aggregate,
+                self.aggregate.__attrs_attrs__.size_files,
+                -10)
+        self.assertEqual(error.exception.__str__(),
+                         f"{self.aggregate.__attrs_attrs__.size_files.name}" \
+                         " must be bigger or equal to 0.")
+
+    def test_get_row(self):
+        total_lines = 100
+        zero_lines = 0
+        empty = Aggregate('extesion', 0, 0, 'Bytes', 0)
+
+        self.assertListEqual(empty.get_row(total_lines),
+                             ['extesion', '0 (0.0000 %)', 0])
+
+        normal = Aggregate('py', 100, 10, 'Bytes', 0)
+
+        self.assertListEqual(normal.get_row(total_lines),
+                             ['py', '100 (100.0000 %)', 10.0])
+
+        self.assertListEqual(normal.get_row(zero_lines),
+                             ['py', '100 (0.0000 %)', 10.0])
+

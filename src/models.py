@@ -59,13 +59,26 @@ class FileModel(object):
         elif self.unit == 'MB':
             return self.size_file * 125000
 
+
 @attr.s
 class Aggregate(object):
-    extension = attr.ib()
-    qty_lines = attr.ib()
-    size_files = attr.ib()
-    unit = attr.ib()
-    percent_lines = attr.ib()
+    extension = attr.ib(type=str, converter=str)
+    qty_lines = attr.ib(type=int, converter=int)
+
+    @qty_lines.validator
+    def check(self, attribute, value):
+        if value < 0:
+            raise ValueError(f"{attribute.name} must be bigger or equal to 0.")
+
+    size_files = attr.ib(type=float, converter=float)
+
+    @size_files.validator
+    def check(self, attribute, value):
+        if value < 0:
+            raise ValueError(f"{attribute.name} must be bigger or equal to 0.")
+
+    unit = attr.ib(type=str, converter=str)
+    percent_lines = attr.ib() #TODO REMOVE THIS.
 
     def get_row(self, qty_lines_total):
         try:
