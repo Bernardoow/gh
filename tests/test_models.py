@@ -24,6 +24,37 @@ class FileModelTest(unittest.TestCase):
         self.assertIsNotNone(
             self.filemodel.__attrs_attrs__.qty_lines.validator)
 
+        self.assertTrue(hasattr(self.filemodel.__attrs_attrs__, 'size_file'))
+        self.assertTrue(
+            self.filemodel.__attrs_attrs__.size_file.converter is float)
+        self.assertTrue(self.filemodel.__attrs_attrs__.size_file.type is float)
+        self.assertIsNotNone(
+            self.filemodel.__attrs_attrs__.size_file.validator)
+
+        self.assertTrue(hasattr(self.filemodel.__attrs_attrs__, 'unit'))
+        self.assertTrue(
+            self.filemodel.__attrs_attrs__.unit.converter is str)
+        self.assertTrue(self.filemodel.__attrs_attrs__.unit.type is str)
+        self.assertIsNotNone(
+            self.filemodel.__attrs_attrs__.unit.validator)
+
+        self.assertTrue(hasattr(self.filemodel.__attrs_attrs__, 'is_file'))
+        self.assertTrue(
+            self.filemodel.__attrs_attrs__.is_file.converter is int)
+        self.assertTrue(self.filemodel.__attrs_attrs__.is_file.type is int)
+        self.assertIsNotNone(
+            self.filemodel.__attrs_attrs__.is_file.validator)
+
+        self.assertTrue(
+            hasattr(self.filemodel.__attrs_attrs__, 'extensions_file_url'))
+        self.assertTrue(
+            self.filemodel.__attrs_attrs__.extensions_file_url.converter is str)
+        self.assertTrue(
+            self.filemodel.__attrs_attrs__.extensions_file_url.type is str)
+        self.assertIsNotNone(
+            self.filemodel.__attrs_attrs__.extensions_file_url.validator)
+
+
     def test_validate_url_value_ok(self):
         self.filemodel.__attrs_attrs__.url.validator(
             self.filemodel,
