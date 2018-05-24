@@ -12,6 +12,9 @@ name = "pypi"
 [packages]
 
 scrapy = "*"
+attrs = "*"
+treelib = "*"
+ptable = "*"
 
 
 [requires]

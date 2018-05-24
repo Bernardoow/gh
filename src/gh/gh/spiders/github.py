@@ -7,6 +7,10 @@ class GithubSpider(scrapy.Spider):
     allowed_domains = ['github.com']
     start_urls = []
 
+    # def __init__(self, *args, **kwargs):
+    #     super(GithubSpider, self).__init__(*args, **kwargs)
+    #     import pdb; pdb.set_trace()
+
     def parse(self, response):
         url = response.request.url.replace("https://github.com/", "")
         if len(response.css("#raw-url")):

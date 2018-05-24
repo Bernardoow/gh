@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import csv
+import os
 
 from treelib import Node, Tree
 from prettytable import PrettyTable
@@ -10,14 +11,24 @@ from gh.gh.spiders.github import GithubSpider
 
 
 class Handler(object):
-    def read_csv_file(self, filename): # str-> list[str]
-        files_info = []
+
+    file_temp = './result.csv'
+
+    def read_csv_file(self, filename):
+        files_info = {}
         with open(filename, newline='') as csvfile:
             spamreader = csv.reader(csvfile, delimiter=',')
             cabecalho = 0
             for row in spamreader:
                 if 1 == cabecalho:
-                    files_info.append(FileModel(*row))
+                    file_model = FileModel(*row)
+
+                    key = "/".join(
+                        file_model.url.split("/")[:2]
+                    )
+                    if key not in files_info:
+                        files_info[key] = []
+                    files_info[key].append(file_model)
                 else:
                     cabecalho = 1
 
@@ -26,6 +37,7 @@ class Handler(object):
     def summarize_data(self, files):
         extesions = {}
         qty_lines = 0
+        size_files = 0.0
         for file in files:
 
             pieces = file.url.split(".")
@@ -42,6 +54,7 @@ class Handler(object):
             agg.qty_lines += int(file.qty_lines)
             qty_lines += int(file.qty_lines)
             agg.size_files += float(file.size_file)
+            size_files += float(file.size_file)
 
             extesions[extesion] = agg
 
@@ -52,7 +65,7 @@ class Handler(object):
         for key, extesion in sorted(extesions.items()):
             pretty_table.add_row(extesion.get_row(qty_lines))
 
-        return pretty_table.get_string()
+        return qty_lines, size_files, pretty_table.get_string()
 
     def create_tree(self, files):
         tree = Tree()
@@ -70,10 +83,62 @@ class Handler(object):
                 tree.create_node(pieces[-1], "/".join(pieces),
                                  parent="/".join(pieces[:-2]))
 
-        tree.remove_node(f'{root.url}/tree')
+        if tree.contains(f'{root.url}/tree'):
+            tree.remove_node(f'{root.url}/tree')
 
         return tree
 
-    def open_input_txt_file(self, path):  #  str -> list[str]
+    def open_input_txt_file(self, path):
         with open(path) as f:
-            return f.readlines()
+            break_line = "\n"
+            return [f"https://github.com/{line.replace(break_line, '')}"
+                    for line in f.readlines()]
+
+    def clean_workspace(self, path):
+        try:
+            os.remove(path)
+        except OSError:
+            pass
+
+    def create_output_folder(self):
+        if not os.path.exists('./output'):
+            os.makedirs('./output')
+
+    def do_crawler(self, repositories_lists):
+        process = CrawlerProcess({
+            'USER_AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)',
+            'FEED_FORMAT': 'csv',
+            'FEED_URI': f'{self.file_temp}',
+            'FEED_STORE_EMPTY': True,
+            'DOWNLOAD_TIMEOUT': "15",
+        })
+
+        handler.clean_workspace(handler.file_temp)
+
+        process.crawl(GithubSpider, start_urls=repositories_lists)
+        process.start()
+
+    def do_test(self):
+        self.create_output_folder()
+        repositories_lists = self.open_input_txt_file('./input.txt')
+        self.do_crawler(repositories_lists)
+        repositories_files = self.read_csv_file(f'{self.file_temp}')
+
+        for repository, lista in repositories_files.items():
+            qty_lines, size_files, table = handler.summarize_data(lista)
+            tree = handler.create_tree(lista)
+            file_path = f'./output/{repository.replace("/", "_")}.txt'
+            with open(file_path, 'w') as f:
+                f.write(repository + "\n")
+                f.write(f"Total de linhas: {qty_lines}." + "\n")
+                f.write(f"Tamanho total: {size_files} Bytes." + "\n")
+                f.write(table)
+                f.write("\n")
+
+            tree.save2file(file_path)
+
+
+if __name__ == '__main__':
+
+    handler = Handler()
+    handler.do_test()
