@@ -8,28 +8,28 @@ class FileModel(object):
     url = attr.ib(type=str, converter=str)
 
     @url.validator
-    def check(self, attribute, value):
+    def url_check(self, attribute, value):
         if value is None or isinstance(value, str) is False:
             raise ValueError(f"{attribute.name} must be string.")
 
     qty_lines = attr.ib(type=int, converter=int)
 
     @qty_lines.validator
-    def check(self, attribute, value):
+    def qty_lines_check(self, attribute, value):
         if value < 0:
             raise ValueError(f"{attribute.name} must be bigger or equal to 0.")
 
     size_file = attr.ib(type=float, converter=float)
 
     @size_file.validator
-    def check(self, attribute, value):
+    def size_file_check(self, attribute, value):
         if value < 0:
             raise ValueError(f"{attribute.name} must be bigger or equal to 0.")
 
     unit = attr.ib(type=str, converter=str)
 
     @unit.validator
-    def check(self, attribute, value):
+    def unit_check(self, attribute, value):
         valids_values = ["Bytes", "KB", "MB"]
         if value is None:
             raise ValueError(f"{attribute.name} must be string.")
@@ -40,14 +40,14 @@ class FileModel(object):
     is_file = attr.ib(type=int, converter=int)
 
     @is_file.validator
-    def check(self, attribute, value):
+    def is_file_check(self, attribute, value):
         if value < 0 or value > 1:
             raise ValueError(f"{attribute.name} must be 0 or 1.")
 
     extensions_file_url = attr.ib(type=str, converter=str)
 
     @extensions_file_url.validator
-    def check(self, attribute, value):
+    def extensions_file_url_check(self, attribute, value):
         if isinstance(value, str) is False:
             raise ValueError(f"{attribute.name} must be string.")
 
