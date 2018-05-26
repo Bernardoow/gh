@@ -1,3 +1,0 @@
-Bernardoow/Elm-SqlAlchemy-Replace
-Bernardoow/study_of_attrs_and_tests
-vivadecora/backend-teste
