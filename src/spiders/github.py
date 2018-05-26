@@ -9,6 +9,7 @@ class GithubSpider(scrapy.Spider):
 
     def parse(self, response):
         url = response.request.url.replace("https://github.com/", "")
+
         if len(response.css("#raw-url")):
             pieces = response.request.url.split('/')
             extensions_file_url = pieces[-1].split('.')[-1]
@@ -45,3 +46,11 @@ class GithubSpider(scrapy.Spider):
 
         for a in response.css(seletor_link):
             yield response.follow(a, callback=self.parse)
+
+        if response.url in self.start_urls and self.scrapy_branches:
+
+            seletor_branch = 'a.select-menu-item.js-navigation-item' \
+                '.js-navigation-open'
+            for a in response.css(seletor_branch):
+                if a.re_first(r'data-name="(\w+-\w+)+"') != "master":
+                    yield response.follow(a, callback=self.parse)

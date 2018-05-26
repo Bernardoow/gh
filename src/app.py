@@ -104,7 +104,10 @@ class Handler(object):
         if not os.path.exists(path):
             os.makedirs(path)
 
-    def do_crawler(self, repositories_lists, path_file_data_crawled):
+    def do_crawler(self, 
+                   repositories_lists,
+                   path_file_data_crawled,
+                   scrapy_branches=False):
         process = CrawlerProcess({
             'USER_AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)',
             'FEED_FORMAT': 'csv',
@@ -116,17 +119,24 @@ class Handler(object):
 
         self.clean_workspace(path_file_data_crawled)
 
-        process.crawl(GithubSpider, start_urls=repositories_lists)
+        process.crawl(GithubSpider,
+                      start_urls=repositories_lists,
+                      scrapy_branches=scrapy_branches)
         process.start()
 
     def do_job(self,
                path_output_folder,
                path_input_file,
-               path_output_csv_file):
+               path_output_csv_file,
+               scrapy_branches=False):
 
         self.create_output_folder(path_output_folder)
         repositories_lists = self.open_input_txt_file(path_input_file)
-        self.do_crawler(repositories_lists, path_output_csv_file)
+        self.do_crawler(
+            repositories_lists,
+            path_output_csv_file,
+            scrapy_branches)
+
         repositories_files = self.read_csv_file(path_output_csv_file)
 
         for repository, lista in repositories_files.items():

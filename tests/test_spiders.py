@@ -106,3 +106,19 @@ class GHSpiderTest(unittest.TestCase):
 
         self.assertEqual(len(results), 3)
         self.assertDictEqual(results[0], data)
+
+    def test_parse_with_branches(self):
+        file = os.path.join(os.path.dirname(__file__),
+                            'artifacts/gh_branches.html')
+
+        url = "https://github.com/Bernardoow/Elm-SqlAlchemy-Replace"
+        spider = GithubSpider()
+        spider.scrapy_branches = True
+        spider.start_urls = [url]
+        results = spider.parse(
+            fake_response_from_file(
+                file,
+                url=url))
+        results = list(results)
+
+        self.assertEqual(len(results), 10)

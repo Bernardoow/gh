@@ -30,6 +30,9 @@ At the root of project, we need call main.py passing three params:
 
 **python main.py path_output_folder path_input_file path_output_csv_file**
 
+The command above just scrapy master branch. If do you want scrapy all branches you need put the command --branches.
+
+**python main.py path_output_folder path_input_file path_output_csv_file --branches**
 
 ## How execute tests?
 
