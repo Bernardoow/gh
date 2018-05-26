@@ -17,19 +17,16 @@ class Handler(object):
         try:
             with open(filename, newline='') as csvfile:
                 rows = csv.reader(csvfile, delimiter=',')
-                cabecalho = 0
+                next(rows, None)
                 for row in rows:
-                    if 1 == cabecalho:
-                        file_model = FileModel(*row)
+                    file_model = FileModel(*row)
 
-                        key = "/".join(
-                            file_model.url.split("/")[:2]
-                        )
-                        if key not in files_info:
-                            files_info[key] = []
-                        files_info[key].append(file_model)
-                    else:
-                        cabecalho = 1
+                    key = "/".join(
+                        file_model.url.split("/")[:2]
+                    )
+                    if key not in files_info:
+                        files_info[key] = []
+                    files_info[key].append(file_model)
         except FileNotFoundError:
             pass
 
