@@ -3,7 +3,7 @@
 import unittest
 import os
 
-from src.gh.gh.spiders.github import GithubSpider
+from src.spiders.github import GithubSpider
 from tests.helpers import fake_response_from_file
 
 

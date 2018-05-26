@@ -7,7 +7,7 @@ from prettytable import PrettyTable
 from scrapy.crawler import CrawlerProcess
 
 from src.models import FileModel, Aggregate
-from src.gh.gh.spiders.github import GithubSpider
+from src.spiders.github import GithubSpider
 
 
 class Handler(object):
@@ -125,7 +125,7 @@ class Handler(object):
     def do_test(self):
         self.create_output_folder()
         repositories_lists = self.open_input_txt_file('./src/input.txt')
-        self.do_crawler(repositories_lists)
+        self.do_crawler(repositories_lists, './result.csv')
         repositories_files = self.read_csv_file('./result.csv')
 
         for repository, lista in repositories_files.items():
