@@ -5,7 +5,7 @@ import os
 import shutil
 
 from prettytable import PrettyTable
-from treelib import Node, Tree
+from treelib import Tree
 
 from src.app import Handler
 from src.models import FileModel, Aggregate

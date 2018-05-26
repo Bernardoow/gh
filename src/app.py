@@ -2,7 +2,7 @@
 import csv
 import os
 
-from treelib import Node, Tree
+from treelib import Tree
 from prettytable import PrettyTable
 from scrapy.crawler import CrawlerProcess
 
@@ -56,7 +56,7 @@ class Handler(object):
 
         pretty_table.field_names = ["Extension", "Lines", "Size"]
 
-        for key, extension in sorted(extensions.items()):
+        for _, extension in sorted(extensions.items()):
             pretty_table.add_row(extension.get_row(qty_lines))
 
         return qty_lines, size_files, pretty_table.get_string()
@@ -64,7 +64,6 @@ class Handler(object):
     def create_tree(self, files):
         tree = Tree()
         root = files[0]
-        slash = "/"
         tree.create_node(f"[{root.url.split('/')[0]}]", root.url.split("/")[0])
         for item in files:
             if not tree.contains(item.url):
