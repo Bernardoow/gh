@@ -33,29 +33,29 @@ class Handler(object):
         return files_info
 
     def summarize_data(self, files):
-        extesions = {}
+        extensions = {}
         qty_lines = 0
         size_files = 0.0
         for file in files:
-            extesion = file.extensions_file_url
+            extension = file.extensions_file_url
 
-            if extesion not in extesions:
-                extesions[extesion] = Aggregate(extesion, 0, 0, 'Bytes', 0)
+            if extension not in extensions:
+                extensions[extension] = Aggregate(extension, 0, 0, 'Bytes', 0)
 
-            agg = extesions[extesion]
+            agg = extensions[extension]
             agg.qty_lines += int(file.qty_lines)
             qty_lines += int(file.qty_lines)
             agg.size_files += float(file.size_file)
             size_files += float(file.size_file)
 
-            extesions[extesion] = agg
+            extensions[extension] = agg
 
         pretty_table = PrettyTable()
 
         pretty_table.field_names = ["Extension", "Lines", "Size"]
 
-        for key, extesion in sorted(extesions.items()):
-            pretty_table.add_row(extesion.get_row(qty_lines))
+        for key, extension in sorted(extensions.items()):
+            pretty_table.add_row(extension.get_row(qty_lines))
 
         return qty_lines, size_files, pretty_table.get_string()
 
