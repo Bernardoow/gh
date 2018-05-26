@@ -12,8 +12,8 @@ from src.spiders.github import GithubSpider
 
 class Handler(object):
 
-    @classmethod
-    def read_csv_file(self, filename):
+    @staticmethod
+    def read_csv_file(filename):
         files_info = {}
         try:
             with open(filename, newline='') as csvfile:
@@ -32,8 +32,8 @@ class Handler(object):
 
         return files_info
 
-    @classmethod
-    def summarize_data(self, files):
+    @staticmethod
+    def summarize_data(files):
         extensions = {}
         qty_lines = 0
         size_files = 0.0
@@ -63,8 +63,8 @@ class Handler(object):
 
         return qty_lines, size_files, pretty_table.get_string()
 
-    @classmethod
-    def create_tree(self, files):
+    @staticmethod
+    def create_tree(files):
         tree = Tree()
         root = files[0]
         tree.create_node(f"[{root.url.split('/')[0]}]", root.url.split("/")[0])
@@ -85,22 +85,22 @@ class Handler(object):
 
         return tree
 
-    @classmethod
-    def open_input_txt_file(self, path):
+    @staticmethod
+    def open_input_txt_file(path):
         with open(path) as f:
             break_line = "\n"
             return [f"https://github.com/{line.replace(break_line, '')}"
                     for line in f.readlines()]
 
-    @classmethod
-    def clean_workspace(self, path):
+    @staticmethod
+    def clean_workspace(path):
         try:
             os.remove(path)
         except OSError:
             pass
 
-    @classmethod
-    def create_output_folder(self, path):
+    @staticmethod
+    def create_output_folder(path):
         if not os.path.exists(path):
             os.makedirs(path)
 

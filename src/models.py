@@ -69,14 +69,14 @@ class Aggregate(object):
     qty_lines = attr.ib(type=int, converter=int)
 
     @qty_lines.validator
-    def check(self, attribute, value):
+    def qty_lines_check(self, attribute, value):
         if value < 0:
             raise ValueError(f"{attribute.name} must be bigger or equal to 0.")
 
     size_files = attr.ib(type=float, converter=float)
 
     @size_files.validator
-    def check(self, attribute, value):
+    def size_files_check(self, attribute, value):
         if value < 0:
             raise ValueError(f"{attribute.name} must be bigger or equal to 0.")
 

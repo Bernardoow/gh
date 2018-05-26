@@ -8,14 +8,15 @@ name = "pypi"
 [dev-packages]
 
 coverage = "*"
+coveralls = "*"
 
 
 [packages]
 
-Scrapy = "*"
+scrapy = "*"
 attrs = "*"
 treelib = "*"
-PTable = "*"
+ptable = "*"
 
 
 [requires]
