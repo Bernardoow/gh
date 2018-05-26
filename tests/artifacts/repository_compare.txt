@@ -12,20 +12,20 @@ Tamanho total: 19124.0 Bytes.
 |     py    | 101 (19.9605 %) |  3220.0 |
 |    yml    |  16 (3.1621 %)  |  193.0  |
 +-----------+-----------------+---------+
-Bernardoow
-└── study_of_attrs_and_tests
-    └── blob
-        └── master
-            ├── .gitignore
-            ├── .travis.yml
-            ├── LICENSE
-            ├── Pipfile
-            ├── Pipfile.lock
-            ├── readme.md
-            ├── setup.py
-            ├── src
-            │   ├── __init__.py
-            │   └── models.py
-            └── test
-                ├── __init__.py
-                └── test_model.py
+[Bernardoow]
+└── [study_of_attrs_and_tests]
+    └── [blob]
+        └── [master]
+            ├── .gitignore (105 linhas)
+            ├── .travis.yml (16 linhas)
+            ├── LICENSE (22 linhas)
+            ├── Pipfile (22 linhas)
+            ├── Pipfile.lock (232 linhas)
+            ├── [src]
+            │   ├── __init__.py (0 linhas)
+            │   └── models.py (21 linhas)
+            ├── [test]
+            │   ├── __init__.py (0 linhas)
+            │   └── test_model.py (72 linhas)
+            ├── readme.md (8 linhas)
+            └── setup.py (8 linhas)

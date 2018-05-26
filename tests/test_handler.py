@@ -178,15 +178,17 @@ class HandlerTest(unittest.TestCase):
         ])
 
         tree = Tree()
-        tree.create_node("Bernardoow", "Bernardoow")  # root node
-        tree.create_node("Elm-SqlAlchemy-Replace", "Elm-SqlAlchemy-Replace", parent="Bernardoow")
-        tree.create_node("blob", "blob", parent="Elm-SqlAlchemy-Replace")
-        tree.create_node("master", "master", parent="blob")
-        tree.create_node("readme.md", "readme.md", parent="master")
-        tree.create_node("tests", "tests", parent="master")
-        tree.create_node("Tests.elm", "Tests.elm", parent="tests")
-        tree.create_node("src", "src", parent="master")
-        tree.create_node("test_model.py", "test_model.py", parent="src")
+        tree.create_node("[Bernardoow]", "Bernardoow")  # root node
+        tree.create_node("[Elm-SqlAlchemy-Replace]", "Elm-SqlAlchemy-Replace",
+                         parent="Bernardoow")
+        tree.create_node("[blob]", "blob", parent="Elm-SqlAlchemy-Replace")
+        tree.create_node("[master]", "master", parent="blob")
+        tree.create_node("readme.md (73 linhas)", "readme.md", parent="master")
+        tree.create_node("[tests]", "tests", parent="master")
+        tree.create_node("Tests.elm (132 linhas)", "Tests.elm", parent="tests")
+        tree.create_node("[src]", "src", parent="master")
+        tree.create_node("test_model.py (73 linhas)", "test_model.py",
+                         parent="src")
 
         self.assertEqual(tree_response.to_json(), tree.to_json())
 
@@ -197,7 +199,7 @@ class HandlerTest(unittest.TestCase):
             132,
             4.21,
             'KB',
-            1,
+            0,
             'elm')
 
         file_one = FileModel(
@@ -241,16 +243,17 @@ class HandlerTest(unittest.TestCase):
         ])
 
         tree = Tree()
-        tree.create_node("Bernardoow", "Bernardoow")
-        tree.create_node("Elm-SqlAlchemy-Replace", "Elm-SqlAlchemy-Replace",
+        tree.create_node("[Bernardoow]", "Bernardoow")  # root node
+        tree.create_node("[Elm-SqlAlchemy-Replace]", "Elm-SqlAlchemy-Replace",
                          parent="Bernardoow")
-        tree.create_node("blob", "blob", parent="Elm-SqlAlchemy-Replace")
-        tree.create_node("master", "master", parent="blob")
-        tree.create_node("readme.md", "readme.md", parent="master")
-        tree.create_node("tests", "tests", parent="master")
-        tree.create_node("Tests.elm", "Tests.elm", parent="tests")
-        tree.create_node("src", "src", parent="master")
-        tree.create_node("test_model.py", "test_model.py", parent="src")
+        tree.create_node("[blob]", "blob", parent="Elm-SqlAlchemy-Replace")
+        tree.create_node("[master]", "master", parent="blob")
+        tree.create_node("readme.md (73 linhas)", "readme.md", parent="master")
+        tree.create_node("[tests]", "tests", parent="master")
+        tree.create_node("Tests.elm (132 linhas)", "Tests.elm", parent="tests")
+        tree.create_node("[src]", "src", parent="master")
+        tree.create_node("test_model.py (73 linhas)", "test_model.py",
+                         parent="src")
 
         self.assertEqual(tree_response.to_json(), tree.to_json())
 

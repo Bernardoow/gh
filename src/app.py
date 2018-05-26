@@ -64,12 +64,17 @@ class Handler(object):
     def create_tree(self, files):
         tree = Tree()
         root = files[0]
-        tree.create_node(root.url.split("/")[0], root.url.split("/")[0])
+        slash = "/"
+        tree.create_node(f"[{root.url.split('/')[0]}]", root.url.split("/")[0])
         for item in files:
             if not tree.contains(item.url):
                 pieces = item.url.split("/")
                 for index, path in enumerate(pieces, 1):
                     if not tree.contains("/".join(pieces[:index])):
+                        if len(pieces) == index and item.is_file:
+                            path = f"{path} ({item.qty_lines} linhas)"
+                        else:
+                            path = f"[{path}]"
                         tree.create_node(path, "/".join(pieces[:index]),
                                          parent="/".join(pieces[:index - 1]))
 
