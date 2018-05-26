@@ -1,0 +1,31 @@
+Bernardoow/study_of_attrs_and_tests
+Total de linhas: 506.
+Tamanho total: 19124.0 Bytes.
++-----------+-----------------+---------+
+| Extension |      Lines      |   Size  |
++-----------+-----------------+---------+
+| gitignore | 105 (20.7510 %) |  1170.0 |
+|  license  |  22 (4.3478 %)  |  1050.0 |
+|    lock   | 232 (45.8498 %) | 12500.0 |
+|     md    |   8 (1.5810 %)  |  796.0  |
+|  pipfile  |  22 (4.3478 %)  |  195.0  |
+|     py    | 101 (19.9605 %) |  3220.0 |
+|    yml    |  16 (3.1621 %)  |  193.0  |
++-----------+-----------------+---------+
+Bernardoow
+└── study_of_attrs_and_tests
+    └── blob
+        └── master
+            ├── .gitignore
+            ├── .travis.yml
+            ├── LICENSE
+            ├── Pipfile
+            ├── Pipfile.lock
+            ├── readme.md
+            ├── setup.py
+            ├── src
+            │   ├── __init__.py
+            │   └── models.py
+            └── test
+                ├── __init__.py
+                └── test_model.py

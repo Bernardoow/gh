@@ -2,6 +2,7 @@
 
 import unittest
 import os
+import shutil
 
 from prettytable import PrettyTable
 from treelib import Node, Tree
@@ -55,7 +56,8 @@ class HandlerTest(unittest.TestCase):
         path = os.path.join(os.path.dirname(__file__),
                             'artifacts/output')
         if os.path.exists(path):
-            os.rmdir(path)
+            shutil.rmtree(path, ignore_errors=True)
+
         self.assertFalse(os.path.exists(path))
         self.handler.create_output_folder(path)
 
@@ -131,8 +133,8 @@ class HandlerTest(unittest.TestCase):
             file_one, file_two, file_three, file_four
         ])
 
-        agg_one = Aggregate('elm', 264, 8.42, 'Bytes', 0)
-        agg_two = Aggregate('py', 146, 5.24, 'Bytes', 0)
+        agg_one = Aggregate('elm', 264, 8.42 * 1000, 'Bytes', 0)
+        agg_two = Aggregate('py', 146, 5.24 * 1000, 'Bytes', 0)
 
         pretty_table_check = PrettyTable()
         pretty_table_check.field_names = ["Extension", "Lines", "Size"]
@@ -140,7 +142,7 @@ class HandlerTest(unittest.TestCase):
         pretty_table_check.add_row(agg_two.get_row(410))
 
         self.assertEqual(qty_lines, 410)
-        self.assertEqual(size_files, 13.66)
+        self.assertEqual(size_files, 13660.0)
         self.assertEqual(pretty_table, pretty_table_check.get_string())
 
     def test_create_tree(self):
@@ -252,33 +254,65 @@ class HandlerTest(unittest.TestCase):
 
         self.assertEqual(tree_response.to_json(), tree.to_json())
 
-    def test_do_crawler(self):
-        file = os.path.join(os.path.dirname(__file__),
-                            'artifacts/crawled_data_do_crawler.csv')
+    # def test_do_crawler(self):
+    #     REMOVED because twittes don't permit easly do two scrapy.
+    #     file = os.path.join(os.path.dirname(__file__),
+    #                         'artifacts/crawled_data_do_crawler.csv')
+
+    #     self.handler.do_crawler(
+    #         ['https://github.com/Bernardoow/study_of_attrs_and_tests'],
+    #         file)
+
+    #     data = """url,qty_lines,size_files,unit,is_file,extensions_file_url
+    #         Bernardoow/study_of_attrs_and_tests,0,0,-,0,-
+    #         Bernardoow/study_of_attrs_and_tests/blob/master/setup.py,8,160,Bytes,1,py
+    #         Bernardoow/study_of_attrs_and_tests/tree/master/src,0,0,-,0,-
+    #         Bernardoow/study_of_attrs_and_tests/blob/master/Pipfile.lock,232,12.5,KB,1,lock
+    #         Bernardoow/study_of_attrs_and_tests/blob/master/Pipfile,22,195,Bytes,1,Pipfile
+    #         Bernardoow/study_of_attrs_and_tests/blob/master/.gitignore,105,1.17,KB,1,gitignore
+    #         Bernardoow/study_of_attrs_and_tests/blob/master/LICENSE,22,1.05,KB,1,LICENSE
+    #         Bernardoow/study_of_attrs_and_tests/blob/master/src/models.py,21,450,Bytes,1,py
+    #         Bernardoow/study_of_attrs_and_tests/blob/master/.travis.yml,16,193,Bytes,1,yml
+    #         Bernardoow/study_of_attrs_and_tests/blob/master/readme.md,8,796,Bytes,1,md
+    #         Bernardoow/study_of_attrs_and_tests/tree/master/test,0,0,-,0,-
+    #         Bernardoow/study_of_attrs_and_tests/blob/master/src/__init__.py,0,0,Bytes,1,py
+    #         Bernardoow/study_of_attrs_and_tests/blob/master/test/__init__.py,0,0,Bytes,1,py
+    #         Bernardoow/study_of_attrs_and_tests/blob/master/test/test_model.py,72,2.61,KB,1,py"""
+
+    #     data = [row.strip() for row in data.split("\n")]
+    #     with open(file, 'r') as f:
+    #         data_crawled = [row.strip() for row in f.readlines()]
+
+    #     self.assertListEqual(sorted(data_crawled), sorted(data))
+
+    def test_do_job(self):
+        path_output_folder = os.path.join(
+            os.path.dirname(__file__), 'artifacts/output')
+
+        path_input_file = os.path.join(
+            os.path.dirname(__file__), 'artifacts/input_do_test.txt')
+
+        path_output_csv_file = os.path.join(
+            os.path.dirname(__file__), 'artifacts/do_test.csv')
 
         handler = Handler()
-        handler.do_crawler(
-            ['https://github.com/Bernardoow/study_of_attrs_and_tests'],
-            file)
 
-        data = """url,qty_lines,size_files,unit,is_file,extensions_file_url
-            Bernardoow/study_of_attrs_and_tests,0,0,-,0,-
-            Bernardoow/study_of_attrs_and_tests/blob/master/setup.py,8,160,Bytes,1,py
-            Bernardoow/study_of_attrs_and_tests/tree/master/src,0,0,-,0,-
-            Bernardoow/study_of_attrs_and_tests/blob/master/Pipfile.lock,232,12.5,KB,1,lock
-            Bernardoow/study_of_attrs_and_tests/blob/master/Pipfile,22,195,Bytes,1,Pipfile
-            Bernardoow/study_of_attrs_and_tests/blob/master/.gitignore,105,1.17,KB,1,gitignore
-            Bernardoow/study_of_attrs_and_tests/blob/master/LICENSE,22,1.05,KB,1,LICENSE
-            Bernardoow/study_of_attrs_and_tests/blob/master/src/models.py,21,450,Bytes,1,py
-            Bernardoow/study_of_attrs_and_tests/blob/master/.travis.yml,16,193,Bytes,1,yml
-            Bernardoow/study_of_attrs_and_tests/blob/master/readme.md,8,796,Bytes,1,md
-            Bernardoow/study_of_attrs_and_tests/tree/master/test,0,0,-,0,-
-            Bernardoow/study_of_attrs_and_tests/blob/master/src/__init__.py,0,0,Bytes,1,py
-            Bernardoow/study_of_attrs_and_tests/blob/master/test/__init__.py,0,0,Bytes,1,py
-            Bernardoow/study_of_attrs_and_tests/blob/master/test/test_model.py,72,2.61,KB,1,py"""
+        handler.do_job(
+            path_output_folder,
+            path_input_file,
+            path_output_csv_file)
 
-        data = [row.strip() for row in data.split("\n")]
-        with open(file, 'r') as f:
-            data_crawled = [row.strip() for row in f.readlines()]
+        output_file_path = os.path.join(
+            os.path.dirname(__file__),
+            'artifacts/output/Bernardoow_study_of_attrs_and_tests.txt')
+        compare_file_path = os.path.join(
+            os.path.dirname(__file__),
+            'artifacts/repository_compare.txt')
 
-        self.assertListEqual(sorted(data_crawled), sorted(data))
+        with open(output_file_path, 'r') as f:
+            output_file = f.read()
+
+        with open(compare_file_path, 'r') as f:
+            compare_file = f.read()
+
+        self.assertEqual(output_file, compare_file)

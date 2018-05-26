@@ -73,10 +73,6 @@ class Handler(object):
                         tree.create_node(path, "/".join(pieces[:index]),
                                          parent="/".join(pieces[:index - 1]))
 
-            # if not tree.contains("/".join(pieces)):
-            #     tree.create_node(pieces[-1], "/".join(pieces),
-            #                      parent="/".join(pieces[:-2]))
-
         if tree.contains(f'{root.url}/tree'):
             tree.remove_node(f'{root.url}/tree')
 
@@ -109,15 +105,15 @@ class Handler(object):
         })
 
         self.clean_workspace(path_file_data_crawled)
-        
+
         process.crawl(GithubSpider, start_urls=repositories_lists)
         process.start()
 
-    def do_test(self,
-                path_output_folder,
-                path_input_file,
-                path_output_csv_file
-                ):
+    def do_job(self,
+               path_output_folder,
+               path_input_file,
+               path_output_csv_file):
+
         self.create_output_folder(path_output_folder)
         repositories_lists = self.open_input_txt_file(path_input_file)
         self.do_crawler(repositories_lists, path_output_csv_file)
