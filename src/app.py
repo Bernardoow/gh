@@ -37,18 +37,19 @@ class Handler(object):
         qty_lines = 0
         size_files = 0.0
         for file in files:
-            extension = file.extensions_file_url
+            if file.is_file:
+                extension = file.extensions_file_url
 
-            if extension not in extensions:
-                extensions[extension] = Aggregate(extension, 0, 0, 'Bytes', 0)
+                if extension not in extensions:
+                    extensions[extension] = Aggregate(extension, 0, 0, 'Bytes', 0)
 
-            agg = extensions[extension]
-            agg.qty_lines += int(file.qty_lines)
-            qty_lines += int(file.qty_lines)
-            agg.size_files += float(file.size_file)
-            size_files += float(file.size_file)
+                agg = extensions[extension]
+                agg.qty_lines += int(file.qty_lines)
+                qty_lines += int(file.qty_lines)
+                agg.size_files += float(file.size_file)
+                size_files += float(file.size_file)
 
-            extensions[extension] = agg
+                extensions[extension] = agg
 
         pretty_table = PrettyTable()
 
