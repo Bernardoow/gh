@@ -7,14 +7,11 @@ class GithubSpider(scrapy.Spider):
     allowed_domains = ['github.com']
     start_urls = []
 
-    # def __init__(self, *args, **kwargs):
-    #     super(GithubSpider, self).__init__(*args, **kwargs)
-    #     import pdb; pdb.set_trace()
-
     def parse(self, response):
         url = response.request.url.replace("https://github.com/", "")
         if len(response.css("#raw-url")):
-            extensions_file_url = response.request.url.split('.')[-1]
+            pieces = response.request.url.split('/')
+            extensions_file_url = pieces[-1].split('.')[-1]
             quantity_lines = response.\
                 css("div.file-info::text").\
                 re_first(r"(\d+) lines")
@@ -38,8 +35,8 @@ class GithubSpider(scrapy.Spider):
                 'url': url,
                 'qty_lines': 0,
                 'size_files': 0,
-                'is_file': 0,
                 'unit': '-',
+                'is_file': 0,
                 'extensions_file_url': '-'
             }
 
