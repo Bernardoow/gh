@@ -12,6 +12,7 @@ from src.spiders.github import GithubSpider
 
 class Handler(object):
 
+    @classmethod
     def read_csv_file(self, filename):
         files_info = {}
         try:
@@ -31,6 +32,7 @@ class Handler(object):
 
         return files_info
 
+    @classmethod
     def summarize_data(self, files):
         extensions = {}
         qty_lines = 0
@@ -61,6 +63,7 @@ class Handler(object):
 
         return qty_lines, size_files, pretty_table.get_string()
 
+    @classmethod
     def create_tree(self, files):
         tree = Tree()
         root = files[0]
@@ -82,18 +85,21 @@ class Handler(object):
 
         return tree
 
+    @classmethod
     def open_input_txt_file(self, path):
         with open(path) as f:
             break_line = "\n"
             return [f"https://github.com/{line.replace(break_line, '')}"
                     for line in f.readlines()]
 
+    @classmethod
     def clean_workspace(self, path):
         try:
             os.remove(path)
         except OSError:
             pass
 
+    @classmethod
     def create_output_folder(self, path):
         if not os.path.exists(path):
             os.makedirs(path)
