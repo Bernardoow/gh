@@ -49,7 +49,7 @@ class HandlerTest(unittest.TestCase):
         if not os.path.exists(path):
             os.mkdir(path)
         self.assertTrue(os.path.exists(path))
-        self.handler.create_output_folder()
+        self.handler.create_output_folder(path)
 
     def test_create_output_folder_without_existing_folder(self):
         path = os.path.join(os.path.dirname(__file__),
@@ -57,7 +57,7 @@ class HandlerTest(unittest.TestCase):
         if os.path.exists(path):
             os.rmdir(path)
         self.assertFalse(os.path.exists(path))
-        self.handler.create_output_folder()
+        self.handler.create_output_folder(path)
 
     def test_read_csv_file_with_existing_file(self):
         path = os.path.join(os.path.dirname(__file__),

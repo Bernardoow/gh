@@ -41,14 +41,15 @@ class Handler(object):
                 extension = file.extensions_file_url
 
                 if extension not in extensions:
-                    extensions[extension] = Aggregate(extension, 0, 0, 'Bytes', 0)
+                    extensions[extension] = Aggregate(
+                        extension, 0, 0, 'Bytes', 0)
 
                 agg = extensions[extension]
-                import pdb; pdb.set_trace()
-                agg.qty_lines += int(file.qty_lines)
-                qty_lines += int(file.qty_lines)
-                agg.size_files += float(file.size_file)
-                size_files += float(file.size_file)
+
+                agg.qty_lines += file.qty_lines
+                qty_lines += file.qty_lines
+                agg.size_files += file.size_file
+                size_files += file.size_file
 
                 extensions[extension] = agg
 
@@ -82,8 +83,6 @@ class Handler(object):
 
         return tree
 
-
-
     def open_input_txt_file(self, path):
         with open(path) as f:
             break_line = "\n"
@@ -96,9 +95,9 @@ class Handler(object):
         except OSError:
             pass
 
-    def create_output_folder(self):
-        if not os.path.exists('./output'):
-            os.makedirs('./output')
+    def create_output_folder(self, path):
+        if not os.path.exists(path):
+            os.makedirs(path)
 
     def do_crawler(self, repositories_lists, path_file_data_crawled):
         process = CrawlerProcess({
@@ -116,7 +115,7 @@ class Handler(object):
         process.start()
 
     def do_test(self):
-        self.create_output_folder()
+        self.create_output_folder('./output')
         repositories_lists = self.open_input_txt_file('./src/input.txt')
         self.do_crawler(repositories_lists, './result.csv')
         repositories_files = self.read_csv_file('./result.csv')
