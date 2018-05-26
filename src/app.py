@@ -37,13 +37,7 @@ class Handler(object):
         qty_lines = 0
         size_files = 0.0
         for file in files:
-
-            pieces = file.url.split(".")
-
-            if len(pieces) == 1:
-                extesion = 'other'
-            else:
-                extesion = pieces[-1].lower()
+            extesion = file.extensions_file_url
 
             if extesion not in extesions:
                 extesions[extesion] = Aggregate(extesion, 0, 0, 'Bytes', 0)

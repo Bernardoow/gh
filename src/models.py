@@ -59,6 +59,9 @@ class FileModel(object):
         elif self.unit == 'MB':
             return self.size_file * 125000
 
+    def __attrs_post_init__(self):
+        self.extensions_file_url = self.extensions_file_url.lower()
+
 
 @attr.s
 class Aggregate(object):
