@@ -1,6 +1,6 @@
 # gh
 
-[![Build Status](https://travis-ci.org/Bernardoow/gh.svg?branch=master)](https://travis-ci.org/Bernardoow/gh) [![Coverage Status](https://coveralls.io/repos/github/Bernardoow/gh/badge.svg?branch=master)](https://coveralls.io/github/Bernardoow/gh?branch=master) [![Build Status](https://travis-ci.org/Bernardoow/gh.svg?branch=master)](https://travis-ci.org/Bernardoow/gh)
+[![Build Status](https://travis-ci.org/Bernardoow/gh.svg?branch=master)](https://travis-ci.org/Bernardoow/gh) [![Coverage Status](https://coveralls.io/repos/github/Bernardoow/gh/badge.svg?branch=master)](https://coveralls.io/github/Bernardoow/gh?branch=master) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/398cdbcd735a4bffaefcd3a1f9e75e84)](https://www.codacy.com/app/Bernardoow/gh?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Bernardoow/gh&amp;utm_campaign=Badge_Grade)
 
 
 Crawler to Github repositories.
