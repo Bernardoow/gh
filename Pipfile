@@ -9,6 +9,7 @@ name = "pypi"
 
 coverage = "*"
 coveralls = "*"
+requests = "*"
 
 
 [packages]
