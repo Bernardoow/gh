@@ -6,31 +6,32 @@ from treelib import Node, Tree
 from prettytable import PrettyTable
 from scrapy.crawler import CrawlerProcess
 
-from models import FileModel, Aggregate
-from gh.gh.spiders.github import GithubSpider
+from src.models import FileModel, Aggregate
+from src.gh.gh.spiders.github import GithubSpider
 
 
 class Handler(object):
 
-    file_temp = './result.csv'
-
     def read_csv_file(self, filename):
         files_info = {}
-        with open(filename, newline='') as csvfile:
-            spamreader = csv.reader(csvfile, delimiter=',')
-            cabecalho = 0
-            for row in spamreader:
-                if 1 == cabecalho:
-                    file_model = FileModel(*row)
+        try:
+            with open(filename, newline='') as csvfile:
+                rows = csv.reader(csvfile, delimiter=',')
+                cabecalho = 0
+                for row in rows:
+                    if 1 == cabecalho:
+                        file_model = FileModel(*row)
 
-                    key = "/".join(
-                        file_model.url.split("/")[:2]
-                    )
-                    if key not in files_info:
-                        files_info[key] = []
-                    files_info[key].append(file_model)
-                else:
-                    cabecalho = 1
+                        key = "/".join(
+                            file_model.url.split("/")[:2]
+                        )
+                        if key not in files_info:
+                            files_info[key] = []
+                        files_info[key].append(file_model)
+                    else:
+                        cabecalho = 1
+        except FileNotFoundError:
+            pass
 
         return files_info
 
@@ -72,21 +73,23 @@ class Handler(object):
         root = files[0]
         tree.create_node(root.url.split("/")[0], root.url.split("/")[0])
         for item in files:
-            pieces = item.url.split("/")
-            if not tree.contains("/".join(pieces[:-2])):
+            if not tree.contains(item.url):
+                pieces = item.url.split("/")
                 for index, path in enumerate(pieces, 1):
                     if not tree.contains("/".join(pieces[:index])):
                         tree.create_node(path, "/".join(pieces[:index]),
                                          parent="/".join(pieces[:index - 1]))
 
-            if not tree.contains("/".join(pieces)):
-                tree.create_node(pieces[-1], "/".join(pieces),
-                                 parent="/".join(pieces[:-2]))
+            # if not tree.contains("/".join(pieces)):
+            #     tree.create_node(pieces[-1], "/".join(pieces),
+            #                      parent="/".join(pieces[:-2]))
 
         if tree.contains(f'{root.url}/tree'):
             tree.remove_node(f'{root.url}/tree')
 
         return tree
+
+
 
     def open_input_txt_file(self, path):
         with open(path) as f:
@@ -104,29 +107,30 @@ class Handler(object):
         if not os.path.exists('./output'):
             os.makedirs('./output')
 
-    def do_crawler(self, repositories_lists):
+    def do_crawler(self, repositories_lists, path_file_data_crawled):
         process = CrawlerProcess({
             'USER_AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)',
             'FEED_FORMAT': 'csv',
-            'FEED_URI': f'{self.file_temp}',
+            'FEED_URI': f'{path_file_data_crawled}',
             'FEED_STORE_EMPTY': True,
             'DOWNLOAD_TIMEOUT': "15",
+            'LOG_ENABLED': False,
         })
 
-        handler.clean_workspace(handler.file_temp)
+        self.clean_workspace(path_file_data_crawled)
 
         process.crawl(GithubSpider, start_urls=repositories_lists)
         process.start()
 
     def do_test(self):
         self.create_output_folder()
-        repositories_lists = self.open_input_txt_file('./input.txt')
+        repositories_lists = self.open_input_txt_file('./src/input.txt')
         self.do_crawler(repositories_lists)
-        repositories_files = self.read_csv_file(f'{self.file_temp}')
+        repositories_files = self.read_csv_file('./result.csv')
 
         for repository, lista in repositories_files.items():
-            qty_lines, size_files, table = handler.summarize_data(lista)
-            tree = handler.create_tree(lista)
+            qty_lines, size_files, table = self.summarize_data(lista)
+            tree = self.create_tree(lista)
             file_path = f'./output/{repository.replace("/", "_")}.txt'
             with open(file_path, 'w') as f:
                 f.write(repository + "\n")
@@ -136,9 +140,3 @@ class Handler(object):
                 f.write("\n")
 
             tree.save2file(file_path)
-
-
-if __name__ == '__main__':
-
-    handler = Handler()
-    handler.do_test()

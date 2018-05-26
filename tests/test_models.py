@@ -54,7 +54,6 @@ class FileModelTest(unittest.TestCase):
         self.assertIsNotNone(
             self.filemodel.__attrs_attrs__.extensions_file_url.validator)
 
-
     def test_validate_url_value_ok(self):
         self.filemodel.__attrs_attrs__.url.validator(
             self.filemodel,
