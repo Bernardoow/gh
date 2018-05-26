@@ -266,9 +266,9 @@ class HandlerTest(unittest.TestCase):
             Bernardoow/study_of_attrs_and_tests/blob/master/setup.py,8,160,Bytes,1,py
             Bernardoow/study_of_attrs_and_tests/tree/master/src,0,0,-,0,-
             Bernardoow/study_of_attrs_and_tests/blob/master/Pipfile.lock,232,12.5,KB,1,lock
-            Bernardoow/study_of_attrs_and_tests/blob/master/Pipfile,22,195,Bytes,1,com/Bernardoow/study_of_attrs_and_tests/blob/master/Pipfile
+            Bernardoow/study_of_attrs_and_tests/blob/master/Pipfile,22,195,Bytes,1,Pipfile
             Bernardoow/study_of_attrs_and_tests/blob/master/.gitignore,105,1.17,KB,1,gitignore
-            Bernardoow/study_of_attrs_and_tests/blob/master/LICENSE,22,1.05,KB,1,com/Bernardoow/study_of_attrs_and_tests/blob/master/LICENSE
+            Bernardoow/study_of_attrs_and_tests/blob/master/LICENSE,22,1.05,KB,1,LICENSE
             Bernardoow/study_of_attrs_and_tests/blob/master/src/models.py,21,450,Bytes,1,py
             Bernardoow/study_of_attrs_and_tests/blob/master/.travis.yml,16,193,Bytes,1,yml
             Bernardoow/study_of_attrs_and_tests/blob/master/readme.md,8,796,Bytes,1,md

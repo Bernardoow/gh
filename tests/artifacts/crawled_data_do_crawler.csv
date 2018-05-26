@@ -2,14 +2,14 @@ url,qty_lines,size_files,unit,is_file,extensions_file_url
 Bernardoow/study_of_attrs_and_tests,0,0,-,0,-
 Bernardoow/study_of_attrs_and_tests/blob/master/setup.py,8,160,Bytes,1,py
 Bernardoow/study_of_attrs_and_tests/tree/master/src,0,0,-,0,-
+Bernardoow/study_of_attrs_and_tests/blob/master/Pipfile.lock,232,12.5,KB,1,lock
+Bernardoow/study_of_attrs_and_tests/blob/master/LICENSE,22,1.05,KB,1,LICENSE
 Bernardoow/study_of_attrs_and_tests/blob/master/readme.md,8,796,Bytes,1,md
+Bernardoow/study_of_attrs_and_tests/blob/master/.travis.yml,16,193,Bytes,1,yml
 Bernardoow/study_of_attrs_and_tests/blob/master/.gitignore,105,1.17,KB,1,gitignore
 Bernardoow/study_of_attrs_and_tests/blob/master/Pipfile,22,195,Bytes,1,Pipfile
-Bernardoow/study_of_attrs_and_tests/blob/master/.travis.yml,16,193,Bytes,1,yml
 Bernardoow/study_of_attrs_and_tests/tree/master/test,0,0,-,0,-
-Bernardoow/study_of_attrs_and_tests/blob/master/Pipfile.lock,232,12.5,KB,1,lock
 Bernardoow/study_of_attrs_and_tests/blob/master/src/models.py,21,450,Bytes,1,py
 Bernardoow/study_of_attrs_and_tests/blob/master/src/__init__.py,0,0,Bytes,1,py
 Bernardoow/study_of_attrs_and_tests/blob/master/test/test_model.py,72,2.61,KB,1,py
 Bernardoow/study_of_attrs_and_tests/blob/master/test/__init__.py,0,0,Bytes,1,py
-Bernardoow/study_of_attrs_and_tests/blob/master/LICENSE,22,1.05,KB,1,LICENSE
