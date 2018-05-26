@@ -41,7 +41,7 @@ class Handler(object):
 
                 if extension not in extensions:
                     extensions[extension] = Aggregate(
-                        extension, 0, 0, 'Bytes', 0)
+                        extension, 0, 0, 'Bytes')
 
                 agg = extensions[extension]
 

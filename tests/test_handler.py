@@ -133,8 +133,8 @@ class HandlerTest(unittest.TestCase):
             file_one, file_two, file_three, file_four
         ])
 
-        agg_one = Aggregate('elm', 264, 8.42 * 1000, 'Bytes', 0)
-        agg_two = Aggregate('py', 146, 5.24 * 1000, 'Bytes', 0)
+        agg_one = Aggregate('elm', 264, 8.42 * 1000, 'Bytes')
+        agg_two = Aggregate('py', 146, 5.24 * 1000, 'Bytes')
 
         pretty_table_check = PrettyTable()
         pretty_table_check.field_names = ["Extension", "Lines", "Size"]

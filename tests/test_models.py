@@ -232,7 +232,7 @@ class FileModelTest(unittest.TestCase):
 class AggregateModelTest(unittest.TestCase):
 
     def setUp(self):
-        self.aggregate = Aggregate('extesion', 0, 0, 'Bytes', 0)
+        self.aggregate = Aggregate('extesion', 0, 0, 'Bytes')
 
     def test_model(self):
 
@@ -311,16 +311,15 @@ class AggregateModelTest(unittest.TestCase):
     def test_get_row(self):
         total_lines = 100
         zero_lines = 0
-        empty = Aggregate('extesion', 0, 0, 'Bytes', 0)
+        empty = Aggregate('extesion', 0, 0, 'Bytes')
 
         self.assertListEqual(empty.get_row(total_lines),
                              ['extesion', '0 (0.0000 %)', 0])
 
-        normal = Aggregate('py', 100, 10, 'Bytes', 0)
+        normal = Aggregate('py', 100, 10, 'Bytes')
 
         self.assertListEqual(normal.get_row(total_lines),
                              ['py', '100 (100.0000 %)', 10.0])
 
         self.assertListEqual(normal.get_row(zero_lines),
                              ['py', '100 (0.0000 %)', 10.0])
-

@@ -81,7 +81,6 @@ class Aggregate(object):
             raise ValueError(f"{attribute.name} must be bigger or equal to 0.")
 
     unit = attr.ib(type=str, converter=str)
-    percent_lines = attr.ib() #TODO REMOVE THIS.
 
     def get_row(self, qty_lines_total):
         try:
