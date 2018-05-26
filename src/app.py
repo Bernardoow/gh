@@ -44,6 +44,7 @@ class Handler(object):
                     extensions[extension] = Aggregate(extension, 0, 0, 'Bytes', 0)
 
                 agg = extensions[extension]
+                import pdb; pdb.set_trace()
                 agg.qty_lines += int(file.qty_lines)
                 qty_lines += int(file.qty_lines)
                 agg.size_files += float(file.size_file)
