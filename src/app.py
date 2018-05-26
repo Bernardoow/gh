@@ -20,7 +20,6 @@ class Handler(object):
                 next(rows, None)
                 for row in rows:
                     file_model = FileModel(*row)
-
                     key = "/".join(
                         file_model.url.split("/")[:2]
                     )
@@ -48,8 +47,8 @@ class Handler(object):
 
                 agg.qty_lines += file.qty_lines
                 qty_lines += file.qty_lines
-                agg.size_files += file.size_file
-                size_files += file.size_file
+                agg.size_files += file.get_size_in_bytes()
+                size_files += file.get_size_in_bytes()
 
                 extensions[extension] = agg
 
@@ -105,12 +104,12 @@ class Handler(object):
             'FEED_FORMAT': 'csv',
             'FEED_URI': f'{path_file_data_crawled}',
             'FEED_STORE_EMPTY': True,
-            'DOWNLOAD_TIMEOUT': "15",
+            'DOWNLOAD_TIMEOUT': "10",
             'LOG_ENABLED': False,
         })
 
         self.clean_workspace(path_file_data_crawled)
-
+        
         process.crawl(GithubSpider, start_urls=repositories_lists)
         process.start()
 
