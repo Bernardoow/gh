@@ -114,16 +114,20 @@ class Handler(object):
         process.crawl(GithubSpider, start_urls=repositories_lists)
         process.start()
 
-    def do_test(self):
-        self.create_output_folder('./output')
-        repositories_lists = self.open_input_txt_file('./src/input.txt')
-        self.do_crawler(repositories_lists, './result.csv')
-        repositories_files = self.read_csv_file('./result.csv')
+    def do_test(self,
+                path_output_folder,
+                path_input_file,
+                path_output_csv_file
+                ):
+        self.create_output_folder(path_output_folder)
+        repositories_lists = self.open_input_txt_file(path_input_file)
+        self.do_crawler(repositories_lists, path_output_csv_file)
+        repositories_files = self.read_csv_file(path_output_csv_file)
 
         for repository, lista in repositories_files.items():
             qty_lines, size_files, table = self.summarize_data(lista)
             tree = self.create_tree(lista)
-            file_path = f'./output/{repository.replace("/", "_")}.txt'
+            file_path = f'{path_output_folder}/{repository.replace("/", "_")}.txt'
             with open(file_path, 'w') as f:
                 f.write(repository + "\n")
                 f.write(f"Total de linhas: {qty_lines}." + "\n")
